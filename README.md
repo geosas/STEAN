@@ -1,8 +1,8 @@
-![Logo](https://raw.githubusercontent.com/Mario-35/api-sensorthing/main/doc/assets/logo.png "Logo")
+![Logo](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/logo.png "Logo")
 
 ## SensorThings API Enhanced Node
 
-![Inrae](https://raw.githubusercontent.com/Mario-35/api-sensorthing/main/doc/assets/inrae.png "Inrae")
+![Inrae](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/inrae.png "Inrae")
 
 ## Want to use this project?
 
@@ -19,15 +19,15 @@
 
 The project run under nodeJS.
 
-![Nodejs](https://raw.githubusercontent.com/Mario-35/api-sensorthing/main/doc/assets/nodejs.png "Nodejs")
+![Nodejs](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/nodejs.png "Nodejs")
 
 Is 100% typescript, the javascript is used for TDD only and apidoc.
 
-![TypeScript](https://raw.githubusercontent.com/Mario-35/api-sensorthing/main/doc/assets/ts.png "TypeScript") ![Javascript](https://raw.githubusercontent.com/Mario-35/api-sensorthing/main/doc/assets/js.png "Javascript")
+![TypeScript](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/ts.png "TypeScript") ![Javascript](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/js.png "Javascript")
 
 For views a little :
 
-![HTML JS CSS](https://raw.githubusercontent.com/Mario-35/api-sensorthing/main/doc/assets/html.png "HTML JS CSS")
+![HTML JS CSS](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/html.png "HTML JS CSS")
 
 ## Directory Structure
 
