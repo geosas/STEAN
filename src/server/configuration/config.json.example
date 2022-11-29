@@ -1,0 +1,26 @@
+{
+        "admin": { // user With admin right (To create blank Database AND create Update users)
+            "key": "my string key", // key string
+            "pg_host": "localhost", // postgres host
+            "pg_user": "postgres", // postgres admin userName
+            "pg_password": "mypassword", // postgres admin password
+            "pg_database": "admin" // don't change
+        },
+        "name1": {
+            "port": 8029,
+            "pg_host": "localhost", // postgres host
+            "pg_user": "myUserName", // postgres user name
+            "pg_password": "MyPassord", // postgres user password
+            "pg_database": "MyDataBaseName1", // postgres database Name
+            "apiVersion": "v1.0",  // version
+            "date_format": "DD/MM/YYYY hh:mm:ss",  // represontation date format
+            "forceHttps": true // Convert http to https
+            "nb_page": 300 // limit elements per page (200 by default)
+            "webSiteDoc": "http://sensorthings.geosas.fr/apidoc/" // documetation url (use in query)
+        },
+        "name2": {
+            "port": 8030, // new por or existing port (8029 like above)
+            ...
+        }
+    }
+}
