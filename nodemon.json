@@ -1,0 +1,13 @@
+{
+    "watch": ["src"],
+    "ext": ".ts,.js",
+    "ignore": [
+        "*.spec.ts",
+        "sql/*",
+        "node_modules"
+    ],
+    "env": {
+        "NODE_ENV": "development"
+    },
+     "exec": "node --inspect -r ts-node/register ./src/server/index.ts"
+}

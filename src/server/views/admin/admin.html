@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CRUD Application using JavaScript</title>
+                <style>
+                    @css@
+                </style>
+    </head>
+
+    <body>
+        <div id="container" style="width:95%;">
+        </div>
+    </body>
+
+    <script>
+
+        var crudApp = new function  () {
+            this.users = {};
+            this.userHeader = {
+                "canPost": "post",
+                "canDelete": "Delete",
+                "canCreateUser": "Create User",
+                "canCreateDb": "Create DB",
+                "admin": "admin",
+                "superAdmin": "Super Admin"
+            }
+            // AN ARRAY OF JSON OBJECTS WITH VALUES.
+
+            this.category = ['Business', 'Computers', 'Programming', 'Science'];
+            this.col = [];
+            this.loadDatas = async function () {
+                let temp = document.URL.includes("/Admin") ? document.URL.split("/Admin")[0] : document.URL.includes("/admin") ? document.URL.split("/admin")[0] : undefined;
+                let response = await fetch("/all", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                try {
+                    var value = await response.text();
+                    this.users = JSON.parse(value);
+                }
+                catch (err) {
+                    console.log("Error", err.message);
+                }                
+            }
+
+            this.createTable = async function () {
+                await this.loadDatas();
+                this.col = Object.keys(this.users[0]).filter(word => word.toLowerCase() != "id");
+
+
+                // CREATE A TABLE.
+                var table = document.createElement('table');
+                table.setAttribute('class', 'fl-table');     // SET TABLE ID.
+                table.setAttribute('id', 'usersTable');     // SET TABLE ID.
+
+                var tr = table.insertRow(-1);               // CREATE A ROW (FOR HEADER).
+
+                for (var h = 0; h < this.col.length; h++) {
+                    // ADD TABLE HEADER.
+                    var th = document.createElement('th');
+                    th.innerHTML = this.userHeader[this.col[h]] ? this.userHeader[this.col[h]] : this.col[h];
+                    tr.appendChild(th);
+                }
+
+
+                this.td = document.createElement('td');
+                tr.appendChild(this.td);
+
+                var btNew = document.createElement('input');
+
+                btNew.setAttribute('type', 'button');       // SET ATTRIBUTES.
+                btNew.setAttribute('value', 'Add');
+                btNew.setAttribute('id', 'New' + i);
+                btNew.setAttribute('class', 'btn_submit _submit');
+                btNew.setAttribute('onclick', 'crudApp.CreateNew()');       // ADD THE BUTTON's 'onclick' EVENT.
+                this.td.appendChild(btNew);
+
+                // ADD ROWS USING JSON DATA.
+                for (var i = 0; i < this.users.length; i++) {
+
+                    tr = table.insertRow(-1);           
+                    // CREATE A NEW ROW.
+
+                    for (var j = 0; j < this.col.length; j++) {
+                        var tabCell = tr.insertCell(-1);
+                        const value = this.users[i][this.col[j]]; 
+                        tabCell.innerHTML = value.toString() == "true" ? "✔" : value.toString() == "false" ? "✖" : value.toString();
+                    }
+
+                    // DYNAMICALLY CREATE AND ADD ELEMENTS TO TABLE CELLS WITH EVENTS.
+
+                    this.td = document.createElement('td');
+
+                    // *** UPDATE.
+                    tr.appendChild(this.td);
+                    var btUpdate = document.createElement('input');
+
+                    btUpdate.setAttribute('type', 'button');    // SET ATTRIBUTES.
+                    btUpdate.setAttribute('value', 'Edit');
+                    btUpdate.setAttribute('id', 'Edit' + i);
+                    btUpdate.setAttribute('class', 'btn_go _go');
+                    btUpdate.setAttribute('onclick', `crudApp.Edit(${this.users[i].id})`);   // ADD THE BUTTON's 'onclick' EVENT.
+                    this.td.appendChild(btUpdate);
+                }
+
+                var div = document.getElementById('container');
+                div.innerHTML = '';
+                div.appendChild(table);    // ADD THE TABLE TO THE WEB PAGE.
+            };
+
+            // ****** OPERATIONS START.
+
+            // Edit DATA.
+            this.Edit = function (id) {
+                window.location.href = `/user(${id})`;
+            };
+            // CREATE NEW.
+            this.CreateNew = function () {
+                window.location.href = `/register`;
+            }
+            // ****** OPERATIONS END.
+        }
+        crudApp.createTable();
+    </script>
+
+</html>

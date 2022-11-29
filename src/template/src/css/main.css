@@ -1,0 +1,406 @@
+/**
+ * apidoc main css file
+ */
+
+/**
+ * Define colors
+ */
+:root {
+  --primary: #0088cc;
+  --white: #fff;
+  --light-gray: #ccc;
+  --main-gray: #777;
+  --dark-gray: #2d2d2d;
+  --hover-gray: #666;
+  --meth-get: green;
+  --meth-put: #e5c500;
+  --meth-post: #4070ec;
+  --meth-delete: #ed0039;
+  --red: #dc3545;
+}
+
+.color-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-red {
+  color: var(--white);
+  background-color: var(--red);
+}
+
+.border-danger {
+  border: 1px solid var(--red);
+}
+
+/** for some reason the iOS safari style is applied on date inputs */
+input[type="date"] {
+  line-height: 1.4 !important;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Content
+ * ------------------------------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('./glyphicons-halflings-regular.eot');
+  src: url('./glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+    url('./glyphicons-halflings-regular.woff') format('woff'),
+    url('./glyphicons-halflings-regular.ttf') format('truetype'),
+    url('./glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+}
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+a:focus {
+  background-color: var(--primary);
+}
+
+#content {
+  margin-top: 10px;
+  margin-left: 20%;
+  padding-left: 10px;
+}
+
+p {
+  font-size: 130%;
+  color: var(--main-gray);
+}
+
+section {
+  padding: 30px 0;
+}
+
+article {
+  border-top: 1px solid var(--light-gray);
+  padding: 14px 0 30px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
+th {
+  background-color: var(--main-gray);
+  color: var(--white);
+  text-align: left;
+  padding: 5px 8px;
+  border: 1px solid var(--main-gray);
+}
+
+td {
+  padding: 5px;
+  border: 1px solid var(--main-gray);
+}
+
+td.code {
+  font-family: "Source Code Pro", monospace;
+  font-weight: 600;
+}
+
+.label {
+  float: right;
+  margin-top: 4px;
+  user-select: none;
+}
+
+.label.optional {
+  background-color: grey;
+}
+
+.label.required {
+  background-color: var(--red);
+}
+
+.default-value,
+.type-size {
+  font-style: italic;
+  font-size: 95%;
+}
+
+.open-left {
+  right: 0;
+  left: auto;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.input-group-addon.sample-request-select {
+  padding: 0 6px;
+}
+
+.input-group-addon.sample-request-select select {
+  width: auto;
+  height: 32px;
+}
+
+.sample-request-input-Boolean-container {
+  width: 40px;
+  height: 34px;
+  background: var(--white);
+  border: 1px solid var(--light-gray);
+}
+
+.sample-request-input-Boolean-container > div {
+  margin-top: 7px;
+  text-align: center;
+}
+
+.sample-request-input-Boolean-container > div input {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Request method (HTTP verb)
+ * ------------------------------------------------------------------------------------------ */
+.method {
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-block;
+  margin: 0 0 5px 0;
+  padding: 4px 5px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  background-color: var(--main-gray);
+  color: var(--white);
+}
+
+.meth-get {
+  background-color: var(--meth-get);
+}
+
+.meth-put {
+  background-color: var(--meth-put);
+}
+
+.meth-post {
+  background-color: var(--meth-post);
+}
+
+.meth-delete {
+  background-color: var(--meth-delete);
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Sidenav
+ * ------------------------------------------------------------------------------------------ */
+.sidenav {
+  color: var(--white);
+  width: 20%;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--dark-gray);
+}
+
+.sidenav > li > a {
+  color: var(--white);
+  display: block;
+  padding: 8px 13px;
+}
+
+/* non active sidenav link are highlighted on hover */
+.sidenav > li > a:hover {
+  background-color: transparent;  
+  color: yellow;  
+}
+
+/* .nav-header > a:hover {
+  background-color: var(--dark-gray);  
+  color: red;  
+} */
+
+.is-new  > li > a:hover {
+  /* background-color: var(--hover-gray);   */
+  color: yellow;  
+}
+
+.sidenav > li.nav-header {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.sidenav > li.nav-header > a {
+  padding: 5px 15px;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: var(--main-gray);
+}
+
+
+.sidenav > li.active > a {
+  position: relative;
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+/**
+ * TODO: commented out for the moment
+.sidenav > li.has-modifications a {
+  border-right: 4px solid var(--main-gray);
+}
+
+.nav-list-item :not(.is-new) {
+  border-left: 4px solid var(--main-gray);
+}
+
+.sidenav > li.is-new a {
+  border-left: 4px solid var(--primary);
+}
+*/
+
+/* ------------------------------------------------------------------------------------------
+ * Side nav search
+ * ------------------------------------------------------------------------------------------ */
+.sidenav-search {
+  width: 20%;
+  left: 0px;
+  position: fixed;
+  padding: 16px 20px 10px 20px;
+  background-color: var(--dark-gray);
+}
+
+.sidenav-search .search {
+  height: 26px;
+}
+
+.search-reset {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  right: 28px;
+  top: 17px;
+  background-color: #fff;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Compare
+ * ------------------------------------------------------------------------------------------ */
+
+ins {
+  background: #60d060;
+  text-decoration: none;
+  color: #000000;
+}
+
+del {
+  background: #f05050;
+  color: #000000;
+}
+
+.label-ins {
+  background-color: #60d060;
+}
+
+.label-del {
+  background-color: #f05050;
+  text-decoration: line-through;
+}
+
+pre.ins {
+  background-color: #60d060;
+}
+
+pre.del {
+  background-color: #f05050;
+  text-decoration: line-through;
+}
+
+table.ins th,
+table.ins td {
+  background-color: #60d060;
+}
+
+table.del th,
+table.del td {
+  background-color: #f05050;
+  text-decoration: line-through;
+}
+
+tr.ins td {
+  background-color: #60d060;
+}
+
+tr.del td {
+  background-color: #f05050;
+  text-decoration: line-through;
+}
+
+
+/* ------------------------------------------------------------------------------------------
+ * Tabs
+ * ------------------------------------------------------------------------------------------ */
+ul.nav-tabs {
+  margin: 0;
+}
+
+p.deprecated span{
+  color: var(--red);
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/**
+ * Footer
+ */
+#generator {
+  padding: 10px 0;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Print
+ * ------------------------------------------------------------------------------------------ */
+
+@media print {
+
+  #sidenav,
+  #version,
+  #versions,
+  section .version,
+  section .versions {
+    display: none;
+  }
+
+  #content {
+    margin-left: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:after {
+    content: " [" attr(href) "] ";
+  }
+
+  p {
+    color: #000000
+  }
+
+  pre {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 10px;
+    border: #808080 1px solid;
+    border-radius: 6px;
+    position: relative;
+    margin: 10px 0 20px 0;
+  }
+
+} /* /@media print */

@@ -1,0 +1,432 @@
+<!DOCTYPE text/html>
+<html lang="fr">
+
+    <head>
+        <link rel="stylesheet" href="query.css">
+        <link rel="stylesheet" href="grid.css">
+        <link rel="stylesheet" href="spinner.css">
+        <link rel="stylesheet" href="json.css">
+        <link rel="stylesheet" href="modal.css">
+        <link rel="stylesheet" href="splitter.css">
+        <link rel="stylesheet" href="tabs.css">
+        <link rel="stylesheet" href="queryBuilder.css">
+        <link rel="stylesheet" href="csv.css">
+        
+        <script src="splitter.js"></script>
+        <script src="json.js"></script>
+        <script src="editor.js"></script>
+        <script>(function (e, t, n) { var r = e.querySelectorAll("html")[0]; r.className = r.className.replace(/(^|\s)no-js(\s|$)/, "$1js$2") })(document, window, 0);</script>
+    </head>
+
+    <body>
+        <div id="spinner" class="loading">Loading&#8230;</div>
+        <div id="container">
+            <div id="first">
+                <form name="import" class="pro-form" id="pro-form" enctype="multipart/form-data" action="@action@"
+                    method="POST">
+
+                    <!-- START ACCORDION -->
+                    <div class="tabs">
+                        <!-- Entities -->
+                        <div class="tab">
+                            <input class="tab-check" type="checkbox" id="chck1" checked>
+                            <label class="tab-label" for="chck1">Entities</label>
+                            <div class="tab-content">
+                                <div class="row">
+                                    <!-- Entity -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="entity">Entity</label>
+                                            <select tabindex="1" name="entity" id="entity">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Sub Entity -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="subentity">SubEntity</label>
+                                            <select tabindex="1" name="subentity" id="subentity">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Id -->
+                                    <div class="col col-span-3">
+                                        <div class="field">
+                                            <label for="id">Id</label>
+                                            <input id="nb" name="nb" type="text">
+                                        </div>
+                                    </div>
+                                    <!-- Operation -->
+                                    <div class="col col-span-2">
+                                        <div class="field">
+                                            <label for="Operation">Operation</label>
+                                            <select tabindex="1" name="method" id="method">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Result -->
+                                    <div class="col col-span-2">
+                                        <div class="field">
+                                            <label for="resultFormatOption">Result</label>
+                                            <select tabindex="1" name="resultFormatOption" id="resultFormatOption">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-span-3">
+                                        <button type="button" id="btnShowLinks" class="btn_links _links">urls</button>
+                                    </div>
+
+                                    <!-- Go -->
+                                    <div class="col col-span-4">
+                                        <button  type="button" id="go" class="btn_full _go ">Query</button>
+
+                                        <button type="submit" id="submit" class="btn_full _submit">
+                                            Import file
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Root Skip & Top -->
+                        <div class="tab">
+                            <input class="tab-check" type="checkbox" id="chck2">
+                            <label class="tab-label" for="chck2">Root Skip & Top</label>
+                            <div class="tab-content">
+                                <div class="row">
+                                    <!-- Root -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="optHost">Root</label>
+                                            <input id="optHost" name="optHost" type="text">
+                                        </div>
+                                    </div>
+                                    <!-- Version -->
+                                    <div class="col col-span-2">
+                                        <div class="field">
+                                            <label for="optVersion">Version</label>
+                                            <input id="optVersion" name="optVersion" maxlength="5" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Top -->
+                                    <div class="col col-span-4">
+                                        <div class="field">
+                                            <label for="top">Top</label>
+                                            <input id="topOption" name="top" maxlength="8" type="text">
+                                        </div>
+                                    </div>
+                                    <!-- Skip -->
+                                    <div class="col col-span-4">
+                                        <div class="field">
+                                            <label for="skip">Skip</label>
+                                            <input id="skipOption" name="skip" maxlength="8" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expand -->
+                        <div class="tab">
+                            <input class="tab-check" type="checkbox" id="chck3">
+                            <label class="tab-label" for="chck3">Expand</label>
+                            <div class="tab-content">
+                                <div class="row">
+                                    <!-- Expand -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="queryExpand">Expand</label>
+                                            <button type="button" class="alignRight" onclick="clearMultiSelect('queryExpand', event, 'expand')">X</button>
+                                            <select tabindex="1" name="expand" id="queryExpand" onchange="changeMultiSelect(event)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Sub Expand -->
+                                    <div class="col col-span-6">
+                                        <label for="queryProperty">Property</label>
+                                        <select tabindex="1" name="queryProperty" id="queryProperty">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Expand -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="querySubExpand">Sub Expand</label>
+                                            <button type="button" class="alignRight" onclick="clearMultiSelect('querySubExpand', event, 'subExpand')">X</button>
+                                            <select tabindex="1" name="subExpand" id="querySubExpand" onchange="changeMultiSelect(event)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Sub Expand -->
+                                    <div class="col col-span-6">
+                                        <label for="onlyValue" class="alignRight">Only value</label>
+                                        <input type="checkbox" id="onlyValue" name="onlyValue" class="alignRight">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Query Builder -->
+                        <div class="tab">
+                            <input class="tab-check" type="checkbox" id="chck4">
+                            <label class="tab-label" for="chck4">Query Builder</label>
+                            <div class="tab-content">
+
+                                <!-- Select & Order-->
+                                <div class="row">
+                                    <!-- Select -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="querySelect">Select</label>
+                                            <button type="button" class="alignRight" onclick="clearMultiSelect('querySelect', event, 'select')">✔</button>
+                                            <button type="button" class="alignRight" onclick="clearMultiSelect('querySelect', event, 'select')">X</button>
+                                            <select tabindex="1" name="select" id="querySelect" onchange="changeMultiSelect(event)">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Order -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="queryOrderBy">Order</label>
+                                            <button type="button" class="alignRight" onclick="clearMultiSelect('queryOrderBy', event)">X</button>
+                                            <select tabindex="1" name="queryOrderBy" id="queryOrderBy" onchange="changeMultiSelect(event)">
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- properties -->
+                                <div class="row">
+                                    <div class="col col-span-12">
+                                        <textarea id="query-builder"></textarea>
+                                    </div>
+                                </div>
+                                    <!-- Property -->
+                                 
+                            </div>
+
+
+                        </div>
+
+                        <!-- Observations Options -->
+                        <div id="observationsTab" class="tab">
+                            <input class="tab-check" type="checkbox" id="chck5">
+                            <label class="tab-label" for="chck5">Observations Options</label>
+                            <div class="tab-content">
+                                <!-- splitResult -->
+                                <div class="row">
+                                    <!-- splitResult -->
+                                    <div class="col col-span-4">
+                                        <div class="field">
+                                            <div id="groupSplit" class="group">
+                                                <input type="checkbox" id="splitResultOption" name="splitResultOption">
+                                                <label for="splitResultOption">Split result</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-span-8">
+                                        <div class="field">
+                                            <input id="splitResultOptionName" type="text" value=""
+                                                name="splitResultOptionName">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Date Min -->
+                                    <div class="col col-span-3">
+                                        <div class="field">
+                                            <label for="dateMin">Date mini</label>
+                                            <input class="fullWidth" type="date" id="dateMin" value="">
+                                        </div>
+                                    </div>
+                                    <!-- Date Max -->
+                                    <div class="col col-span-3">
+                                        <div class="field">
+                                            <label for="dateMax">Date max</label>
+                                            <input class="fullWidth" type="date" id="dateMax" value="">
+                                        </div>
+                                    </div>
+                                    <!-- TimeSeries -->
+                                    <div class="col col-span-4">
+                                        <div class="field">
+                                            <label for="selectSeries">Time Series</label>
+                                            <select tabindex="1" name="series" id="selectSeries">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!-- TimeSeries -->
+                                <div class="row">
+                                    <div class="col col-span-6">
+                                        <button type="button" id="btnLimit" class="btn_links _links">Get date limits</button>
+                                    </div>
+                                    <div class="col col-span-4">
+                                        <button type="button" id="btnCreateDateFilter"
+                                            class="btn_links _links">?</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Import File  -->
+
+                        <div id="importTab" class="tab">
+                            <input class="tab-check" type="checkbox" id="chck6">
+                            <label class="tab-label" for="chck6">Import File</label>
+                            <div class="tab-content">
+                                <div class="row">
+                                    <div class="col col-span-10">
+
+                                        <div class="field">
+                                            <input type="file" name="file-1[]" id="fileone" class="inputfile inputfile-1"
+                                                accept=".csv, .txt, .json" data-multiple-caption="{count} files selected"
+                                                multiple />
+                                            <label id="fileonelabel" for="fileone">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                                    <path
+                                                        d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" />
+                                                </svg>
+                                                <span>File csv, json&hellip;</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col col-span-2">
+                                        <div class="field">
+                                            <button type="button" id="addImport" class="btn_links _go">Json</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Logs  -->
+
+                        <div class="tab">
+                            <input class="tab-check" type="checkbox" id="chck7">
+                            <label class="tab-label" for="chck7">Logs</label>
+                            <div class="tab-content">
+                                <div class="row">
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <button type="button" id="btnLogs" class="btn_links _links">Logs</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Operation -->
+                                    <div class="col col-span-6">
+                                        <div class="field">
+                                            <label for="Operation">Operation</label>
+                                            <select tabindex="1" name="method" id="logsMethod">
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- END ACCORDION -->
+
+                    <div class="row assist">
+                            <input class="fullWidth" id="options" type="text" value="" name="tab">
+                    </div>
+
+                    <!-- BUTTONS ICONS -->
+                    <div class="row">
+                        <div class="col col-span-1">
+                        <button type="button" id="preview" class="btn_svg _preview" title="Preview">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path style="fill:white"
+                                    d="M14.408 24h-13.408v-24h10.189c3.163 0 9.811 7.223 9.811 9.614v2.068c-.622-.296-1.293-.502-2-.603v-.623c0-4.106-6-2.456-6-2.456s1.518-6-2.638-6h-7.362v20h9.26c.566.81 1.299 1.49 2.148 2zm2.257-8.669c.402-.206.852-.331 1.335-.331 1.455 0 2.67 1.042 2.941 2.418l1.96-.398c-.456-2.291-2.475-4.02-4.901-4.02-.957 0-1.845.278-2.604.745l-1.396-1.745-1 5h5l-1.335-1.669zm5.335 8.669l-1.396-1.745c-.759.467-1.647.745-2.604.745-2.426 0-4.445-1.729-4.901-4.02l1.96-.398c.271 1.376 1.486 2.418 2.941 2.418.483 0 .933-.125 1.335-.331l-1.335-1.669h5l-1 5z" />
+                            </svg>
+                        </button>
+                        </div>
+                        <div class="col col-span-1">
+                        <button type="button" id="logout" class="btn_svg _logout" title="Logout">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path style="fill:white"
+                                    d="M16 9v-4l8 7-8 7v-4h-8v-6h8zm-2 10v-.083c-1.178.685-2.542 1.083-4 1.083-4.411 0-8-3.589-8-8s3.589-8 8-8c1.458 0 2.822.398 4 1.083v-2.245c-1.226-.536-2.577-.838-4-.838-5.522 0-10 4.477-10 10s4.478 10 10 10c1.423 0 2.774-.302 4-.838v-2.162z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col col-span-1">
+                    <button type="button" id="info" class="btn_svg _info" title="Status">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path style="fill:white"
+                                    d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.739 4.063 2.047 5.625.055 1.83-1.023 4.456-1.993 6.368 2.602-.47 6.301-1.508 7.978-2.536 9.236 2.247 15.968-3.405 15.968-9.457 0-5.812-5.701-10.007-12-10.007zm1 15h-2v-6h2v6zm-1-7.75c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col col-span-1">
+                    <button type="button" id="doc" class="btn_svg _doc" title="Documentation">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path style="fill:white"
+                                    d="M7 22v-16h14v7.543c0 4.107-6 2.457-6 2.457s1.518 6-2.638 6h-5.362zm16-7.614v-10.386h-18v20h8.189c3.163 0 9.811-7.223 9.811-9.614zm-10 1.614h-4v-1h4v1zm6-4h-10v1h10v-1zm0-3h-10v1h10v-1zm1-7h-17v19h-2v-21h19v2z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col col-span-1">
+                    <button type="button" id="git" class="btn_svg _git" title="Github">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path style="fill:white"
+                                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm2.218 18.616c-.354.069-.468-.149-.468-.336v-1.921c0-.653-.229-1.079-.481-1.296 1.56-.173 3.198-.765 3.198-3.454 0-.765-.273-1.389-.721-1.879.072-.177.312-.889-.069-1.853 0 0-.587-.188-1.923.717-.561-.154-1.159-.231-1.754-.234-.595.003-1.193.08-1.753.235-1.337-.905-1.925-.717-1.925-.717-.379.964-.14 1.676-.067 1.852-.448.49-.722 1.114-.722 1.879 0 2.682 1.634 3.282 3.189 3.459-.2.175-.381.483-.444.936-.4.179-1.413.488-2.037-.582 0 0-.37-.672-1.073-.722 0 0-.683-.009-.048.426 0 0 .46.215.777 1.024 0 0 .405 1.25 2.353.826v1.303c0 .185-.113.402-.462.337-2.782-.925-4.788-3.549-4.788-6.641 0-3.867 3.135-7 7-7s7 3.133 7 7c0 3.091-2.003 5.715-4.782 6.641z" />
+                            </svg>
+                        </button>
+                    </div>
+                        <div class="col col-span-2">
+                            <div class="group">
+                                <input type="checkbox" id="checkDebug" name="checkDebug">
+                                <label for="checkDebug">debug</label>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- JSON DATAS -->
+                     <json-editor id="jsonDatas" value='' indent="3"></json-editor>
+                   
+                </form>
+            </div>
+
+            <div id="two">    
+                <div id="csvContainer">
+                </div>
+                <div id="graphContainer" style="background-color: rgb(240, 242, 243);">
+                    <div id="graph" style="width:100%; height:100%;"></div>
+                </div>
+                <div id="jsonContainer" ondrag="mario(event)">
+                    <pre><code>
+                        <div id="json"></div>
+                    </code></pre>
+                </div>
+            </div>
+            <div id="modalOverlay"></div>
+        </div>
+        <script src="constant.js"></script>
+        <script src="helper.js"></script>
+        <script src="queryBuilder.js"></script>
+        <script src="url.js"></script>
+        <script src="multiSelect.js"></script>
+        <script src="query.js"></script>
+        <script src="csv.js"></script>
+        <script src="event.js"></script>
+        <script src="graph.js"></script>
+        <script src="modal.js"></script>
+        <script src="echarts.min.js"></script>
+        
+    </body>
+    
+    </html>

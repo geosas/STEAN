@@ -1,0 +1,78 @@
+@media only screen and (min-width: 60em) { /* 960px */
+  .container {
+    width: 75%;
+    /* max-width: 60rem; */
+  }
+}
+
+.scrolling {
+	overflow: scroll;
+}
+
+.leftSide,
+.rightSide,
+.splitter {
+	position: absolute;
+	height: 100%;
+	overflow: hidden;
+}
+
+.splitter {
+	width: 10px;
+	z-index: 100;
+	cursor: col-resize;
+}
+
+.leftSide>div,
+.rightSide>div {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+.div-1-content,
+.div-2-content {
+	margin: auto;
+	text-align: center;
+	top: 50%;
+	transform: translateY(-50%);
+	position: absolute;
+	width: 100%;
+}
+
+*,
+ :after,
+ :before {
+	box-sizing: border-box;
+}
+
+.clearfix:after,
+.clearfix:before {
+	content: "";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+	display: block;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+
+#first {
+	padding: 2px 5px 1px 5px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #6060dd #ffffff;	
+	height: 91%;
+}
+
+#two {
+	padding: 2px 2px 1px 5px;
+	height: 100%;
+}

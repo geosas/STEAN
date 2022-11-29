@@ -1,0 +1,47 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
+        "strict": true,
+        "moduleResolution": "node",
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "removeComments": true,
+        "strictPropertyInitialization": false,
+        "preserveConstEnums": true,
+        "sourceMap": false,
+        "typeRoots": [
+            "node_modules/@types",
+            "./types"
+        ],
+        "outDir": "build",
+        "noEmit": false,
+        "module": "commonjs",
+        "target": "es2017",
+        "lib": [
+            "es2017"
+        ]
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs"
+        }
+    },
+    "include": [
+        "src/server/**/*.ts",
+        "env"
+    ],
+    "exclude": [
+        "node_modules",
+        "migrations",
+        "scripts",
+        "seeds",
+        "test",
+        "apidoc",
+        "build"
+    ]
+}

@@ -1,0 +1,442 @@
+body {
+    margin: 0;
+    color: #6a6f8c;
+    background: #c8c8c8;
+    font: 600 16px/18px "Open Sans", sans-serif
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box
+}
+
+.nothing {
+    display: none
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: "";
+    display: table
+}
+
+.clearfix:after {
+    clear: both;
+    display: block
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+.login-wrap {
+    width: 100%;
+    margin: auto;
+    max-width: 525px;
+    min-height: 670px;
+    position: relative;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19)
+}
+
+.login-html .title {
+    position: relative;
+    color: #11cc21;
+    top: -30px;
+    left: 30%;
+    transform: translateX(-50%);
+    font-size: 38px;
+}
+
+.login-html {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 90px 70px 50px 70px;
+    background: rgba(40, 57, 101, .9)
+}
+
+.login-html .sign-in-htm,
+.login-html .sign-up-htm {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    transition: all .4s linear
+}
+
+.login-form .group .check,
+.login-html .sign-in,
+.login-html .sign-up {
+    display: none
+}
+
+.login-form .group .button,
+.login-form .group .label,
+.login-html .tab {
+    /* text-transform: uppercase */
+}
+
+.login-html .tab {
+    font-size: 22px;
+    margin-right: 15px;
+    padding-bottom: 5px;
+    margin: 0 15px 10px 0;
+    display: inline-block;
+    border-bottom: 2px solid transparent
+}
+
+.login-html .sign-in:checked+.tab,
+.login-html .sign-up:checked+.tab {
+    color: #fff;
+    border-color: #1161ee
+}
+
+.login-form {
+    min-height: 345px;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d
+}
+
+.login-form .group {
+    margin-bottom: 15px
+}
+
+.login-form .group .button,
+.login-form .group .input,
+.login-form .group .label {
+    width: 95%;
+    color: #fff;
+    display: block
+}
+
+.login-form .group .input:disabled {
+    color: rgba(255, 255, 255, 0.815);
+    background: rgb(61, 58, 58);
+}
+
+.login-form .group .inputId {
+    width: 75%;
+    color: #fff;
+}
+
+.login-form .group .button,
+.login-form .group .inputId,
+.login-form .group .input {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .1)
+}
+
+
+.login-form .group .select {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    background-color: #4f5c81;
+}
+
+.login-form .group .list {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .1)
+}
+
+.login-form .group ul {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .1)
+}
+
+.login-form .group input[data-type=password] {
+    text-security: circle;
+    -webkit-text-security: circle
+}
+
+.login-form .group .label {
+    color: #aaa;
+    font-size: 12px
+}
+
+.login-form .group .button {
+    background: #1161ee
+}
+
+.login-form .group label .icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    background: rgba(255, 255, 255, .1)
+}
+
+.login-form .group label .icon:after,
+.login-form .group label .icon:before {
+    content: "";
+    width: 10px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    transition: all .2s ease-in-out 0s
+}
+
+.login-form .group label .icon:before {
+    left: 3px;
+    width: 5px;
+    bottom: 6px;
+    transform: scale(0) rotate(0)
+}
+
+.login-form .group label .icon:after {
+    top: 6px;
+    right: 0;
+    transform: scale(0) rotate(0)
+}
+
+.login-form .group .check:checked+label {
+    color: #fff
+}
+
+.login-form .group .check:checked+label .icon {
+    background: #1161ee
+}
+
+.login-form .group .check:checked+label .icon:before {
+    transform: scale(1) rotate(45deg)
+}
+
+.login-form .group .check:checked+label .icon:after {
+    transform: scale(1) rotate(-45deg)
+}
+
+.login-html .sign-in:checked+.tab+.sign-up+.tab+.login-form .sign-in-htm {
+    transform: rotate(0)
+}
+
+.login-html .sign-up:checked+.tab+.login-form .sign-up-htm {
+    transform: rotate(0)
+}
+
+.hr {
+    height: 2px;
+    margin: 60px 0 50px 0;
+    background: rgba(255, 255, 255, .2)
+}
+
+.foot-lnk {
+    text-align: center
+}
+
+.button-logout {
+    background-color: #ea61b6;
+    border-radius: 6px;
+    color: #fff;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .6s ease
+}
+
+.button-logout:hover {
+    background-color: #cc2111;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, .3);
+    transform: scale(1.1, 1.1)
+}
+
+.button-admin {
+    background-color: #61ea78;
+    border-radius: 6px;
+    color: #fff;
+    display: block;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .6s ease
+}
+
+.button-logout:hover {
+    background-color: #21cc11;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, .3);
+    transform: scale(1.1, 1.1)
+}
+
+.button {
+    display: inline-block;
+    background-color: #61b4ea;
+    border-radius: 6px;
+    color: #fff;
+    display: block;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .6s ease
+}
+
+.button:hover {
+    background-color: #115fcc;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, .3);
+    transform: scale(1.1, 1.1)
+}
+
+.button-submit {
+    background-color: #61ea9f;
+    border-radius: 6px;
+    color: #fff;
+    display: block;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all .6s ease
+}
+
+.button-submit:hover {
+    background-color: #11cc21;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, .3);
+    transform: scale(1.1, 1.1)
+}
+
+#outer {
+    width: 100%;
+    text-align: center
+}
+
+.inner {
+    display: inline-block;
+    width: 23%
+}
+
+.tooltip {
+    float: right;
+    top: 2px;
+    left: 7px;
+    position: relative;
+    z-index: 2
+}
+
+.tooltip:hover {
+    z-index: 3
+}
+
+.tooltip>span {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    font-size: .9em;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    cursor: help;
+    background-color: #00aeef;
+    position: relative;
+    border-radius: 10px
+}
+
+.tooltip .content {
+    opacity: 0;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    font-size: .7em;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    padding: 8px;
+    border-radius: 6px;
+    pointer-events: none;
+    transition: .2s cubic-bezier(.1, .1, .25, 2);
+    -webkit-transition: .3s cubic-bezier(.1, .2, .5, 2.2);
+    -moz-transition: .3s cubic-bezier(.1, .2, .5, 2.2)
+}
+
+.tooltip p {
+    padding: 0
+}
+
+.tooltip.down .content {
+    left: auto;
+    right: 0;
+    top: 30px
+}
+
+.tooltip:hover .content {
+    opacity: 1;
+    left: 36px
+}
+
+.tooltip .content b {
+    height: 0;
+    width: 0;
+    border-color: #333 #333 transparent transparent;
+    border-style: solid;
+    border-width: 9px 7px;
+    position: absolute;
+    left: -14px;
+    top: 8px
+}
+
+.tooltip.down .content b {
+    left: auto;
+    right: 6px;
+    top: -10px;
+    border-width: 5px;
+    border-color: transparent #333 #333 transparent
+}
+
+.alert {
+    float: right;
+    margin: -25px 0 0 375px;
+    padding: 3px 10px;
+    color: #fff;
+    font-size: .7em;
+    border-radius: 3px 4px 4px 3px;
+    background-color: #ce5454;
+    max-width: 370px;
+    white-space: pre;
+    position: absolute;
+    left: -15px;
+    opacity: 0;
+    z-index: 1;
+    transition: .15s ease-out
+}
+
+.alert::after {
+    content: "";
+    display: block;
+    height: 0;
+    width: 0;
+    border-color: transparent #ce5454 transparent transparent;
+    border-style: solid;
+    border-width: 11px 7px;
+    position: absolute;
+    left: -13px;
+    top: 1px
+}
+
+.alert {
+    left: 0;
+    opacity: 1
+}
+
+.scroller {
+    scrollbar-color: #7090e7 #c2cef0;
+    scrollbar-width: thin;
+  }
+  
