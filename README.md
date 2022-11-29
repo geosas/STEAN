@@ -1,6 +1,6 @@
 ![Logo](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/logo.png "Logo")
 
-## SensorThings API Enhanced Node
+## SensorThings Enhanced API Node
 
 ![Inrae](https://raw.githubusercontent.com/Mario-35/STEAN/main/doc/assets/inrae.png "Inrae")
 
