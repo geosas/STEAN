@@ -759,7 +759,6 @@ excludeColumn: [],
                 type: RELATIONS.belongsTo,
                 expand: `"thing"."id" = "datastream"."thing_id"`,
                 link: `"thing"."id" = (select "datastream"."thing_id" from "datastream" where "datastream"."id" =$ID)`,
-
                 entityName: "Things",
                 tableName: "datastream",
                 relationKey: "id",
@@ -791,9 +790,18 @@ excludeColumn: [],
                 type: RELATIONS.hasMany,
                 expand: `"observation"."id" in (select "observation"."id" from "observation" where "observation"."datastream_id" = "datastream"."id" ORDER BY "observation"."resultTime" ASC)`,
                 link: `"observation"."id" in (select "observation"."id" from "observation" where "observation"."datastream_id" = $ID ORDER BY "observation"."resultTime" ASC)`,
-
                 entityName: "Observations",
                 tableName: "observation",
+                relationKey: "datastream_id",
+                entityColumn: "id",
+                tableKey: "id"
+            },
+            Loras: {
+                type: RELATIONS.belongsTo,
+                expand: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."datastream_id" = "datastream"."id")`,
+                link: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."datastream_id" = $ID)`,
+                entityName: "loras",
+                tableName: "lora",
                 relationKey: "datastream_id",
                 entityColumn: "id",
                 tableKey: "id"

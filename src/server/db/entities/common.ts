@@ -10,7 +10,7 @@ import koa from "koa";
 import { Knex } from "knex";
 import { isGraph, _DBDATAS } from "../constants";
 import { getEntityName, isModeDebug, removeQuotes } from "../../helpers/index";
-import { addToLog, message } from "../../logger";
+import {  message } from "../../logger";
 import { IReturnResult, IKeyValues } from "../../types";
 import { createGraph, extractMessageError, knexQueryToSql, removeKeyFromUrl, verifyId } from "../helpers";
 import { _VOIDTABLE } from "../../constants";
@@ -53,7 +53,7 @@ export class Common {
     logDebugQuery(input: Knex.QueryBuilder | string): void {
         const queryString = typeof input === "string" ? input : knexQueryToSql(input);
         if (isModeDebug()) message(true, "RESULT", "query", queryString);
-        addToLog(this.ctx, { "query": queryString });
+        this.ctx._query = queryString;
     }
 
     // create a blank ReturnResult
@@ -223,7 +223,7 @@ export class Common {
 
         const sql = this.ctx._odata.asPatchSql(dataInput, Common.dbContext);
 
-        addToLog(this.ctx, { "query": sql });
+        
 
         this.logDebugQuery(sql);
 
@@ -251,7 +251,7 @@ export class Common {
 
         try {
             const query: Knex.QueryBuilder = Common.dbContext(_DBDATAS[this.constructor.name].table).del().where({ id: idInput });
-            addToLog(this.ctx, { "query": knexQueryToSql(query) });
+            this.ctx._query = knexQueryToSql(query);
             const returnValue = await query;
 
             return this.createReturnResult({

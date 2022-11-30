@@ -12,7 +12,7 @@ import { Common } from "./common";
 import { getBigIntFromString, removeQuotes } from "../../helpers/index";
 import {  _DBADMIN, _DBDATAS } from "../constants";
 import { _DOUBLEQUOTE, _QUOTEDCOMA, _VOIDTABLE } from "../../constants";
-import { addToLog, message } from "../../logger";
+import { message } from "../../logger";
 import { decodeLoraPayload } from "../../lora";
 import { IKeyValues, IReturnResult } from "../../types";
 
@@ -28,15 +28,14 @@ export class Loras extends Common {
 
     async add(dataInput: IKeyValues[], silent?: boolean): Promise<IReturnResult | undefined> {
         message(true, "OVERRIDE", this.constructor.name, "add");
-        if (dataInput["MultiDatastream"])
- {
-     if (!dataInput["deveui"] || dataInput["deveui"] == null) {
-         const temp = "deveui is missing or Null";
-         if (silent) return this.createReturnResult({ body: temp });
-         else this.ctx.throw(400, { detail: temp });
-     }
-    return await super.add(dataInput);
-    }
+        if (dataInput["MultiDatastream"]) {
+            if (!dataInput["deveui"] || dataInput["deveui"] == null) {
+                const temp = "deveui is missing or Null";
+                if (silent) return this.createReturnResult({ body: temp });
+                else this.ctx.throw(400, { detail: temp });
+            }
+            return await super.add(dataInput);
+        }
 
         if (dataInput["payload_deciphered"] && dataInput["payload_deciphered"] != "") {
             const decodeRaw = decodeLoraPayload(Common.dbContext, dataInput["deveui"], dataInput["payload_deciphered"]);
@@ -173,8 +172,6 @@ export class Loras extends Common {
                 "(select observation1.COLUMN from  observation1), "
             )} (select multidatastream1.id from  multidatastream1) as multidatastream, (select multidatastream1.thing_id from multidatastream1) as thing)
              SELECT coalesce(json_agg(t), '[]') AS result FROM result1 as t`;
-
-        addToLog(this.ctx, { "query": sql });
 
         this.logDebugQuery(sql);
 

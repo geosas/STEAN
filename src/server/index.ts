@@ -35,6 +35,7 @@ declare module "koa" {
         _version: string;
         _odata: PgVisitor;
         _datas: IKeyString;
+        _query: string;
     }
 }
 

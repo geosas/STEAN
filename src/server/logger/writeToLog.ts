@@ -11,22 +11,28 @@ import { _DBADMIN } from "../db/constants";
 import { getUserId } from "../helpers";
 import { db } from "../db";
 import { logDebug } from ".";
+import { _CONFIGFILE } from "../configuration";
+import { IKeyValue } from "../types";
 
 export const clearLog = async (ctx: koa.Context): Promise<void> => {
     await db["admin"].raw(`delete from ${_DBADMIN.Logs_request.table} where ("url" LIKE '%/Logs%') or (code = '200' and method = 'GET') or date < date_trunc('day', NOW() - interval '3 month') and method = 'GET'`);
 }
-export const writeToLog = async (ctx: koa.Context): Promise<void> => {
-    // if (ctx["LOG"] && ctx._arg && ctx._arg.ENTITY_NAME && ctx._arg.ENTITY_NAME != "Logs") {
-    if (ctx["LOG"]) {
-        ctx["LOG"].method = ctx["LOG"].method || ctx.method;
-        ctx["LOG"].return = ctx["LOG"].method === "GET" ? "" : ctx["LOG"].return || (ctx.body as string);
-        ctx["LOG"].code = ctx["LOG"].code || ctx.status;
-        ctx["LOG"].url = ctx["LOG"].url || ctx.url;
-        ctx["LOG"].port = ctx["LOG"].port || ctx.port;
-        ctx["LOG"].database = ctx["LOG"].database || ctx.database;
-        ctx["LOG"].user_id = ctx["LOG"].user_id || getUserId(ctx).toString();
+
+export const writeToLog = async (ctx: koa.Context, error?: IKeyValue): Promise<void> => {
+    if (ctx.method !== "GET" ) {  
+        const req = {
+            "method" : ctx.method,
+            "return" : ctx.body as string,
+            "code" : ctx.response.status,
+            "url" : ctx.url,
+            "database" : ctx._configName,
+            "datas" : ctx.request.body as string,
+            "user_id" : getUserId(ctx).toString(),
+            "query" : ctx._query,
+            "error": error && error["error"]
+        }      
         try {
-            await db["admin"].table(_DBADMIN.Logs_request.table).insert(ctx.LOG);
+            await db["admin"].table(_DBADMIN.Logs_request.table).insert(req);
         } catch (error) {
             logDebug(error);
         }

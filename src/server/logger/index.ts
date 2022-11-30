@@ -6,7 +6,6 @@
  *
  */
 
-export { addToLog } from "./addToLog";
 export { logDebug } from "./logDebug";
 export { message } from "./message";
 export { writeToLog } from "./writeToLog";

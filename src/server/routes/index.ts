@@ -8,7 +8,7 @@
 
 import Koa from "koa";
 import { boolToString, ConfigCtx, setConfigToCtx, stringToBool } from "../helpers";
-import { addToLog, writeToLog } from "../logger";
+import { writeToLog } from "../logger";
 
 export { protectedRoutes } from "./protected";
 export { unProtectedRoutes } from "./unProtected";
@@ -30,9 +30,8 @@ export const routerHandle = async (ctx: Koa.Context, next: any) => {
             if(temp[2]) err.detai = temp[2];
         }
         
-        addToLog(ctx, { "error": err.message + " : " + err.detail });
+        writeToLog(ctx, { "error": err.message + " : " + err.detail });
 
-        await writeToLog(ctx);
 
         ctx.status = err.statusCode || err.status || 500;
         ctx.body = err.link
