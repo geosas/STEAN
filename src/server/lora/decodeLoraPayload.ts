@@ -15,7 +15,7 @@ import { IKeyString } from "../types";
 import { IDecoderInfos, IDecoderInfosMessage } from "./types";
 import util from "util";
 
-export const nomenclature: IKeyString = {
+const nomenclature: IKeyString = {
     "voltage": "battery voltage",
     "period": "periods",
     "0110": "air temperature",

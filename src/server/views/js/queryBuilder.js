@@ -59,9 +59,9 @@ class QueryBuilder {
 
 
     clear(element, fields) {
-       const pipo = document.querySelectorAll(".remove-criterium-button");
+       const temp = document.querySelectorAll(".remove-criterium-button");
        this.fields = fields;
-       pipo.forEach(e => e.click());
+       temp.forEach(e => e.click());
 
     }
     // Getters & Setters

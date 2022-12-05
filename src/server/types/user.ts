@@ -48,7 +48,7 @@ interface userToken {
     PDCUAS: [boolean, boolean, boolean, boolean, boolean, boolean];
 }
 
-export const createToken = (input: IUser, password: string) => {
+ const createToken = (input: IUser, password: string) => {
     return jsonwebtoken.sign(
         {
             data: {

@@ -28,7 +28,7 @@ import { dbTest } from "../dbTest";
 import { _DBDATAS } from "../../server/db/constants";
 import { IEntity } from "../../server/types";
 import { testsKeys as datastreams_testsKeys } from "./routes.07_datastreams.spec";
-export const testsKeys = ["@iot.id", "@iot.selfLink", "Datastreams@iot.navigationLink", "name", "description"];
+export const testsKeys = ["@iot.id", "@iot.selfLink", "Datastreams@iot.navigationLink", "MultiDatastreams@iot.navigationLink", "Loras@iot.navigationLink","name", "description"];
 
 chai.use(chaiHttp);
 

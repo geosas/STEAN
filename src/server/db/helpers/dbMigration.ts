@@ -13,7 +13,7 @@ import { asyncForEach } from "../../helpers";
 import {  message } from "../../logger";
 import { IColList } from "../../types";
 import { _DBDATAS, _POSGRESTOJS } from "../constants";
-import { dbSchemaList } from "./dbSchemaList";
+import { dbSchemaList } from ".";
 
 export let _DBMIGRATION: { [key: string]: Object } | undefined = {
     "1.1.0": {
@@ -61,7 +61,7 @@ const getDataType = (input: string): string => _POSGRESTOJS[input.split(" ")[0].
                             message(false, "ENV", "not found column", `${col} in ${entity}`);
                             if (newVersion && _DBMIGRATION) {
                                     const myObject = _DBMIGRATION[newVersion] && _DBMIGRATION[newVersion][version] ? _DBMIGRATION[newVersion][version][entity].columns[col] : _DBMIGRATION[newVersion][Object.keys(_DBMIGRATION[newVersion])[0]];
-                                    if (myObject) message(false, "ENV", `Create column ${col}  for ${entity}`, 
+                                    if (myObject && myObject.create) message(false, "ENV", `Create column ${col}  for ${entity}`, 
                                         await db[connectName].raw(myObject.create)  
                                         .then(() =>  "✔")
                                         .catch((err: any) => err)); 

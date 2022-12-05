@@ -28,7 +28,7 @@ export class Loras extends Common {
 
     async add(dataInput: IKeyValues[], silent?: boolean): Promise<IReturnResult | undefined> {
         message(true, "OVERRIDE", this.constructor.name, "add");
-        if (dataInput["MultiDatastream"]) {
+        if (dataInput["Sensor"]) {
             if (!dataInput["deveui"] || dataInput["deveui"] == null) {
                 const temp = "deveui is missing or Null";
                 if (silent) return this.createReturnResult({ body: temp });
@@ -52,17 +52,14 @@ export class Loras extends Common {
             const temp = "Data is missing or Null";
             if (silent) return this.createReturnResult({ body: temp });
             else this.ctx.throw(400, { detail: temp });
-        }
-
-        
-
+        }     
 
         const searchMulti = `(select jsonb_agg(tmp.units -> 'name') as keys from ( select jsonb_array_elements("unitOfMeasurements") as units ) as tmp) FROM "${
             _DBDATAS.MultiDatastreams.table
         }" 
-            WHERE "${_DBDATAS.MultiDatastreams.table}".id = (SELECT "${_DBDATAS.Loras.table}"."multidatastream_id" FROM "${_DBDATAS.Loras.table}" WHERE "${_DBDATAS.Loras.table}"."deveui" = '${dataInput["deveui"]}')`;
-        // Get the multiDatastream
-        const tempSql = await Common.dbContext.raw(`SELECT id, thing_id, ${searchMulti}`);
+            WHERE "${_DBDATAS.MultiDatastreams.table}".sensor_id = (SELECT sensor_id FROM "${_DBDATAS.Loras.table}" WHERE deveui = '${dataInput["deveui"]}' LIMIT 1)`;
+        // // Get the multiDatastream
+        const tempSql = await Common.dbContext.raw(`SELECT *, ${searchMulti}`);
         const multiDatastream = tempSql.rows[0];
 
         if (!multiDatastream) {

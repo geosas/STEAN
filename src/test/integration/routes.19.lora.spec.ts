@@ -17,13 +17,9 @@ import { IEntity } from "../../server/types";
 
 const testsKeys = [
     "@iot.id",
-    "name",
     "deveui",
-    "description",
-    "properties",
     "@iot.selfLink",
-    "Datastreams@iot.navigationLink",
-    "MultiDatastream@iot.navigationLink",
+    "Sensor@iot.navigationLink",
     "Decoder@iot.navigationLink"
 ];
 
@@ -135,20 +131,17 @@ describe("endpoint : Lora", () => {
         });
     });
 
-    describe(`{post} ${entity.name} Add lora observation.`, () => {
-        it("should return the Lora Affected multi that was added", (done) => {
+    describe(`{post} ${entity.name} Add lora sensor.`, () => {
+        it("should return the sensor Affected lora id", (done) => {
             const datas = {
-                "MultiDatastream": {
-                    "@iot.id": 2
-                },
-                "name": "My new Lora name",
-                "description": "My new Lora Description",
-                "deveui": "8cf9574000009L8C"
+                "Sensor": { "@iot.id": 2 },
+                "Decoder": { "@iot.id": 1 },
+                "deveui": "8cf9574000009L8A"
             };
             const infos = {
                 api: `{post} ${entity.name} Post basic`,
-                apiName: `Post${entity.name}`,
-                apiDescription: `Post a new Observation in a Lora Thing.`,
+                apiName: `Post${entity.name}Sensor`,
+                apiDescription: `Post a new Lora sensor.`,
                 apiExample: {
                     http: `/v1.0/${entity.name}`,
                     curl: defaultPost("curl", "KEYHTTP", datas),
@@ -161,7 +154,7 @@ describe("endpoint : Lora", () => {
                 .post(`/test${infos.apiExample.http}`)
                 .send(infos.apiParamExample)
                 .set("Cookie", `${keyTokenName}=${token}`)
-                .end((err: any, res: any) => {                    
+                .end((err: any, res: any) => {   
                     should.not.exist(err);
                     res.status.should.equal(201);
                     res.type.should.equal("application/json");
@@ -175,14 +168,13 @@ describe("endpoint : Lora", () => {
             const datas = {
                 "data": dataInput,
                 "deveui": "8cf9574000002d4d",
-                "sensor_id": "8cf9574000002d4d",
                 "timestamp": "2021-10-18T14:53:44+02:00",
                 "payload_ciphered": null,
                 "payload_deciphered": "012f5ecec2014a1ab2"
             };
             const infos = {
                 api: `{post} ${entity.name} Post basic`,
-                apiName: `Post${entity.name}Multi`,
+                apiName: `Post${entity.name}Observation`,
                 apiDescription: `Post a new Observation in a Lora Thing.`,
                 apiExample: {
                     http: `/v1.0/${entity.name}`,

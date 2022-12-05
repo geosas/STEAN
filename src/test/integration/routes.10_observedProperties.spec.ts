@@ -27,7 +27,6 @@ import { server } from "../../server/index";
 import { dbTest } from "../dbTest";
 import { _DBDATAS } from "../../server/db/constants";
 import { IEntity } from "../../server/types";
-import { testsKeys as sensors_testsKeys } from "./routes.09_sensors.spec";
 import { testsKeys as datastreams_testsKeys } from "./routes.07_datastreams.spec";
 
 export const testsKeys = ["@iot.id", "@iot.selfLink", "Datastreams@iot.navigationLink", "name", "description", "definition"];
@@ -209,7 +208,6 @@ describe("endpoint : ObservedProperties", () => {
                     should.not.exist(err);
                     res.status.should.equal(200);
                     res.type.should.equal("application/json");
-                    res.body.should.include.keys(sensors_testsKeys.filter((elem) => elem !== "Datastreams@iot.navigationLink"));
                     res.body.should.include.keys("Datastreams");
                     res.body.Datastreams[0].should.include.keys(datastreams_testsKeys);
                     res.body["@iot.id"].should.eql(1);

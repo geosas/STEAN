@@ -12,7 +12,6 @@ import { writeToLog } from "../logger";
 
 export { protectedRoutes } from "./protected";
 export { unProtectedRoutes } from "./unProtected";
-export const makeRootName = (ctx: Koa.Context):string => `${ctx._linkBase}/${ctx._version}`;
 export const routerHandle = async (ctx: Koa.Context, next: any) => {
     process.env.DEBUG = boolToString(ctx.request.url.includes("$debug=true"));
     try {

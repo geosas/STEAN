@@ -108,8 +108,8 @@ const createListWithoutOptions = (inputList) => inputList.split("</option>").joi
       } else { 
         const firstOfList = cleanList.shift();
         const selectedOfList = cleanList.filter(e => e[0] === _CHECK);
-        const pipo = selectedOfList.length == cleanList.length ? _ALL : selectedOfList.length == 0 ? _NONE : `${selectedOfList.length}`
-        value.target.innerHTML = value.target.innerHTML.replace(firstOfList, `${pipo} ${_SELECTED}`);
+        const temp = selectedOfList.length == cleanList.length ? _ALL : selectedOfList.length == 0 ? _NONE : `${selectedOfList.length}`
+        value.target.innerHTML = value.target.innerHTML.replace(firstOfList, `${temp} ${_SELECTED}`);
         addOption(value.target.name, selectedOfList.map(e => e.split(_CHECK)[1].trim()).join(), '0');
 
       }

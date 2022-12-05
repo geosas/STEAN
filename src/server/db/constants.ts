@@ -38,34 +38,6 @@ export const getDateNow = async (conn: Knex | Knex.Transaction): Promise<string>
 const makeIDAlias = (table: string) => `"${table}"."id" AS "@iot.id"`;
 const _DATEFORMAT = 'YYYY-MM-DD"T"HH24:MI:SSZ';
 
-export const observationResulAlias = (tableName: string) => {
-    switch (tableName) {
-        case "keys":    
-            return `listKeys as (select jsonb_agg(tmp.units -> 'name') as keys from ( select jsonb_array_elements("unitOfMeasurements") as units from multidatastream where id =  $ID ) as tmp),`;
-        case _DBDATAS.MultiDatastreams.name:    
-            return `(SELECT json_object_agg(key, value) from ( SELECT jsonb_array_elements_text("keys") as key, unnest("observation"."resultnumbers")::float8 as value from ( SELECT keys from listKeys ) as tmp2 ) as tmp3) as "result"`;
-        case _DBDATAS.Datastreams.name:                            
-            return `"observation"."resultnumber" as "result"`;
-        default:
-            // return`CASE WHEN ("multidatastream_id" is null) THEN json_object_agg('result', "observation"."resultnumber") ELSE ( SELECT json_object_agg(key, value) from ( SELECT jsonb_array_elements_text("keys") as key, unnest("observation"."resultnumbers")::float8 as value from ( SELECT keys from listKeys ) as tmp2 ) as tmp3) end as "result"`;
-
-            return`CASE WHEN ("multidatastream_id" is null) THEN json_object_agg('result', "observation"."resultnumber") ELSE ( SELECT json_object_agg(key, value) from ( SELECT jsonb_array_elements_text("keys") as key, unnest("observation"."resultnumbers")::float8 as value from ( SELECT (select jsonb_agg(tmp.units -> 'name') as keys from ( select jsonb_array_elements("unitOfMeasurements") as units from multidatastream where id = "multidatastream_id" ) as tmp) ) as tmp2 ) as tmp3) end as "result"`;
-    }
-}
-
-
-export const validEntity = (entityName: string): string | undefined  => {
-    const testString: string | undefined = entityName
-    .match(/[a-zA-Z_]/g)
-    ?.join("")
-    .trim();
-
-    return testString
-        ? _DBDATAS.hasOwnProperty(testString)
-            ? testString
-            : Object.keys(_DBDATAS).filter((elem: string) => _DBDATAS[elem].table == testString.toLowerCase() || _DBDATAS[elem].singular == testString)[0]
-        : undefined;
-}
 
 export const _DBADMIN: { [key: string]: IEntity } = {
     Users: {
@@ -120,8 +92,6 @@ export const _DBADMIN: { [key: string]: IEntity } = {
             }
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {}
     },
 
@@ -194,8 +164,6 @@ export const _DBADMIN: { [key: string]: IEntity } = {
             }
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {}
     }
 };
@@ -233,8 +201,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             thing_pkey: 'PRIMARY KEY ("id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             Locations: {
                 type: RELATIONS.belongsToMany,
@@ -316,8 +282,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             }
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             Observations: {
                 type: RELATIONS.hasMany,
@@ -406,8 +370,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             location_pkey: 'PRIMARY KEY ("id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             Things: {
                 type: RELATIONS.belongsToMany,
@@ -477,8 +439,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             historical_location_thing_id: 'ON public."historical_location" USING btree ("thing_id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             // TODO NOT GOOD
             Things: {
@@ -532,8 +492,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             location_historical_location_location_id: 'ON public."location_historical_location" USING btree ("location_id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {}
     },
 
@@ -575,8 +533,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             observedproperty_pkey: 'PRIMARY KEY ("id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             Datastreams: {
                 type: RELATIONS.hasMany,
@@ -651,8 +607,6 @@ export const _DBDATAS: { [key: string]: IEntity } = {
             sensor_pkey: 'PRIMARY KEY ("id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             Datastreams: {
                 type: RELATIONS.hasMany,
@@ -672,6 +626,16 @@ export const _DBDATAS: { [key: string]: IEntity } = {
 
                 entityName: "MultiDatastreams",
                 tableName: "multidatastream",
+                relationKey: "sensor_id",
+                entityColumn: "id",
+                tableKey: "id"
+            },
+            Loras: {
+                type: RELATIONS.belongsTo,
+                expand: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."sensor_id" = "sensor"."id")`,
+                link: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."sensor_id" = $ID)`,
+                entityName: "Loras",
+                tableName: "lora",
                 relationKey: "sensor_id",
                 entityColumn: "id",
                 tableKey: "id"
@@ -745,15 +709,12 @@ export const _DBDATAS: { [key: string]: IEntity } = {
                 form: {type : "entity", entity: "Sensor"}
             },
             properties: {
-                // Not in SensorThings 1.0
                 create: "jsonb NULL",
                 comment: "The detailed description of the feature. The data type is defined by encodingType.",
                 form: {type : "textarea"}
             }
         },
         migrationTest: true,
-excludeColumn: [],
-
         relations: {
             Thing: {
                 type: RELATIONS.belongsTo,
@@ -792,16 +753,6 @@ excludeColumn: [],
                 link: `"observation"."id" in (select "observation"."id" from "observation" where "observation"."datastream_id" = $ID ORDER BY "observation"."resultTime" ASC)`,
                 entityName: "Observations",
                 tableName: "observation",
-                relationKey: "datastream_id",
-                entityColumn: "id",
-                tableKey: "id"
-            },
-            Loras: {
-                type: RELATIONS.belongsTo,
-                expand: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."datastream_id" = "datastream"."id")`,
-                link: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."datastream_id" = $ID)`,
-                entityName: "loras",
-                tableName: "lora",
                 relationKey: "datastream_id",
                 entityColumn: "id",
                 tableKey: "id"
@@ -894,8 +845,6 @@ excludeColumn: [],
             }
         },
     migrationTest: true,
-excludeColumn: [],
-
         relations: {
             Thing: {
                 type: RELATIONS.belongsTo,
@@ -939,17 +888,7 @@ excludeColumn: [],
                 relationKey: "observedproperty_id",
                 entityColumn: "multidatastream_id",
                 tableKey: "multidatastream_id"
-            },
-            Loras: {
-                type: RELATIONS.belongsTo,
-                expand: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."multidatastream_id" = "multidatastream"."id")`,
-                link: `"lora"."id" = (select "lora"."id" from "lora" where "lora"."multidatastream_id" = $ID)`,
-                entityName: "loras",
-                tableName: "lora",
-                relationKey: "multidatastream_id",
-                entityColumn: "id",
-                tableKey: "id"
-            },
+            }
         },
         constraints: {
             multidatastream_pkey: 'PRIMARY KEY ("id")',
@@ -982,8 +921,6 @@ excludeColumn: [],
             // }
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {},
         constraints: {
             multi_datastream_observedproperty_pkey: 'PRIMARY KEY ("multidatastream_id", "observedproperty_id")',
@@ -1078,13 +1015,11 @@ excludeColumn: [],
             observation_featureofinterest_id: 'ON public."observation" USING btree ("featureofinterest_id")'
         },
         migrationTest: true,
-        excludeColumn: ["resultnumber","resultnumbers"],
         relations: {
             Datastream: {
                 type: RELATIONS.belongsTo,
                 expand: `"datastream"."id" = "observation"."datastream_id"`,
                 link: `"datastream"."id" = (SELECT "observation"."datastream_id" FROM "observation" WHERE "observation"."id" = $ID)`,
-
                 entityName: "Datastreams",
                 tableName: "observation",
                 relationKey: "id",
@@ -1154,7 +1089,6 @@ excludeColumn: [],
             HistoricalObservations_observation_id: 'ON public."historical_observation" USING btree ("observation_id")'
         },
         migrationTest: true,
-        excludeColumn: [],
         relations: {
             Observations: {
                 type: RELATIONS.belongsTo,
@@ -1186,8 +1120,6 @@ excludeColumn: [],
             }
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {},
         constraints: {
             thing_location_pkey: 'PRIMARY KEY ("thing_id", "location_id")',
@@ -1236,8 +1168,6 @@ excludeColumn: [],
             decoder_pkey: 'PRIMARY KEY ("id")'
         },
         migrationTest: true,
-        excludeColumn: [],
-
         relations: {
             Loras: {
                 type: RELATIONS.hasMany,
@@ -1264,21 +1194,6 @@ excludeColumn: [],
                 alias: makeIDAlias("lora"),
                 form: {type : "number"}
             },
-            name: {
-                create: "text NOT NULL DEFAULT 'no name'::text",
-                comment: "A property provides a label for FeatureOfInterest entity, commonly a descriptive name.",
-                form: {type : "text"}
-            },
-            description: {
-                create: "text NOT NULL DEFAULT 'no description'::text",
-                comment: "The definition of the observed property.",
-                form: {type : "text"}
-            },
-            properties: {
-                create: "jsonb NULL",
-                comment: "The detailed description of the feature. The data type is defined by encodingType.",
-                form: {type : "textarea"}
-            },
             deveui: {
                 create: "text NOT NULL",
                 comment: "The deveui of lora.",
@@ -1289,51 +1204,32 @@ excludeColumn: [],
                 comment: "Id of the decoder id",
                 form: {type : "entity", entity: "Decoders"}
             },
-            datastream_id: {
-                create: "BIGINT[] NULL",
-                comment: "The spatial.",
-                form: {type : "entity", entity: "Datastreams"}
-            },
-            multidatastream_id: {
-                create: "BIGINT NULL",
-                comment: "The spatial.",
-                form: {type : "entity", entity: "MultiDatastreams"}
+            sensor_id: {
+                create: "BIGINT NOT NULL",
+                comment: "The sensor.",
+                form: {type : "entity", entity: "Sensors"}
             }
         },
         constraints: {
             lora_pkey: 'PRIMARY KEY ("id")',
             lora_unik_deveui: 'UNIQUE ("deveui")',
-            // lora_unik_multidatastream_id: 'UNIQUE ("multidatastream_id")',
-            // lora_datastream_id_fkey: 'FOREIGN KEY ("datastream_id") REFERENCES "datastream"("id") ON UPDATE CASCADE ON DELETE CASCADE',
-            lora_multidatastream_id_fkey: 'FOREIGN KEY ("multidatastream_id") REFERENCES "multidatastream"("id") ON UPDATE CASCADE ON DELETE CASCADE',
-            lora_decoder_fkey: 'FOREIGN KEY ("decoder_id") REFERENCES "decoder"("id") ON UPDATE CASCADE ON DELETE CASCADE'
+            lora_sensor_id_fkey: 'FOREIGN KEY ("sensor_id") REFERENCES "sensor"("id") ON UPDATE CASCADE ON DELETE CASCADE',
+            lora_decoder_id_fkey: 'FOREIGN KEY ("decoder_id") REFERENCES "decoder"("id") ON UPDATE CASCADE ON DELETE CASCADE'
         },
         indexes: {
-            lora_datastream_id: 'ON public."lora" USING btree ("datastream_id")',
-            lora_multidatastream_id: 'ON public."lora" USING btree ("multidatastream_id")',
-            decoder_id: 'ON public."lora" USING btree ("decoder_id")'
+            lora_sensor_id: 'ON public."lora" USING btree ("sensor_id")',
+            lora_decoder_id: 'ON public."lora" USING btree ("decoder_id")'
         },
         migrationTest: true,
-        excludeColumn: [],
         relations: {
-            Datastreams: {
-                type: RELATIONS.hasMany,
-                expand: `"datastream"."id" = "observation"."datastream_id"`,
-                link: `"datastream"."id" (SELECT "observation"."datastream_id" FROM "observation" WHERE "observation"."id" = $ID)`,
-                entityName: "Datastreams",
-                tableName: "observation",
-                relationKey: "id",
-                entityColumn: "datastream_id",
-                tableKey: "id"
-            },
-            MultiDatastream: {
+            Sensor: {
                 type: RELATIONS.belongsTo,
-                expand: `"multidatastream"."id" = "lora"."multidatastream_id"`,
-                link: `"multidatastream"."id" = (SELECT "lora"."multidatastream_id" FROM "lora" WHERE "lora"."id" = $ID)`,
-                entityName: "MultiDatastreams",
-                tableName: "observation",
+                expand: `"sensor"."id" = "lora"."sensor_id"`,
+                link: `"sensor"."id" = (SELECT "lora"."sensor_id" FROM "lora" WHERE "lora"."id" = $ID)`,
+                entityName: "sensors",
+                tableName: "sensor",
                 relationKey: "id",
-                entityColumn: "multidatastream_id",
+                entityColumn: "sensor_id",
                 tableKey: "id"
             },
             Decoder: {
@@ -1356,7 +1252,6 @@ excludeColumn: [],
         order: 0,
         columns: {},
         migrationTest: false,
-        excludeColumn: [],
         relations: {},
         constraints: {},
         indexes: {}
@@ -1374,7 +1269,6 @@ excludeColumn: [],
             }
         },
         migrationTest: true,
-        excludeColumn: [],
         relations: {},
         constraints: {
             config_unik_version: 'UNIQUE ("version")',
@@ -1391,7 +1285,6 @@ excludeColumn: [],
         order: 0,
         columns: _DBADMIN.Logs_request.columns,
         migrationTest: false,
-        excludeColumn: [],
         relations: {},
         constraints: {},
         indexes: {}
@@ -1428,3 +1321,4 @@ export type _ENTITIES =
     'Loras' |
     'CreateObservations' |
     'Logs';
+

@@ -23,16 +23,12 @@ import { graphHtml } from "../views/graph";
 import { decodeToken, ensureAuthenticated, getAuthenticatedUser, Rights } from "../types/user";
 import { createDatabase } from "../db/helpers";
 import { createOdata } from "../odata";
-import { makeRootName } from ".";
 
 export const unProtectedRoutes = new Router<DefaultState, Context>();
 
 // ALl others
 unProtectedRoutes.get("/(.*)", async (ctx) => {
-    const token = decodeToken(ctx);
-
-    // ROOT
-    const root = makeRootName(ctx);    
+    const token = decodeToken(ctx);  
 
     switch (testRoutes(ctx.path).toUpperCase()) {
         case ctx._version.toUpperCase():
@@ -80,7 +76,7 @@ unProtectedRoutes.get("/(.*)", async (ctx) => {
 
         case "LOGOUT":
             ctx.cookies.set("jwt-session");
-            if (ctx.request.header.accept && ctx.request.header.accept.includes("text/html")) ctx.redirect(`${root}/login`);
+            if (ctx.request.header.accept && ctx.request.header.accept.includes("text/html")) ctx.redirect(`${ctx._rootName}/login`);
             else ctx.status = 200;
             ctx.body = {
                 message: "Logout succeeded"
@@ -91,11 +87,11 @@ unProtectedRoutes.get("/(.*)", async (ctx) => {
             if (token?.PDCUAS[Rights.SuperAdmin] === true) {
                 ctx.type = returnFormatString.HTML;
                 ctx.body = adminHtml(ctx);
-            } else ctx.redirect(`${root}/login`);
+            } else ctx.redirect(`${ctx._rootName}/login`);
             return;
 
         case "LOGIN":
-            if (ensureAuthenticated(ctx)) ctx.redirect(`${root}/status`);
+            if (ensureAuthenticated(ctx)) ctx.redirect(`${ctx._rootName}/status`);
             else {
                 const createHtml = new CreateHtmlView(ctx);
                 ctx.type = returnFormatString.HTML;
@@ -125,7 +121,7 @@ unProtectedRoutes.get("/(.*)", async (ctx) => {
                     return;
                 }
             }
-            ctx.redirect(`${root}/login`);
+            ctx.redirect(`${ctx._rootName}/login`);
             return;
 
         case "QUERY":
@@ -157,7 +153,7 @@ unProtectedRoutes.get("/(.*)", async (ctx) => {
                 ctx.body = returnValue;
             } else {
                 ctx.status = 400;
-                ctx.redirect(`${root}/error`);
+                ctx.redirect(`${ctx._rootName}/error`);
             }
             return;
     }

@@ -306,7 +306,7 @@ function init() {
   showOnly('none');
 };
 
-function mario(event) {
+function jsonContainerEvent(event) {
   dragText = event.explicitOriginalTarget.innerText;
 }
 

@@ -81,6 +81,7 @@ export class PgVisitor {
     verifyRessources = (ctx: koa.Context): void => {
         message(true, "HEAD", "verifyRessources");
         // TODO REMOVE AFTER ALL 
+        
         if (this.entity.toUpperCase() === "LORA") this.setEntity("Loras");
         if (this.parentEntity) {
             if (!_DBDATAS[this.parentEntity].relations[this.entity])  ctx.throw(404, { detail:`Invalid path ${this.entity.trim()}` }); 
@@ -213,14 +214,6 @@ export class PgVisitor {
                 if (!Object.keys(_DBDATAS[elems[0]].relations).includes(elems[1]) )  ctx.throw(400, { detail:`Invalid expand path ${elems[1]} for ${elems[0]}` });  
             }  else  ctx.throw(400, { detail:`Invalid entity ${elems[0]}` });  
         });    
-
-        // if (this.property && this.property) {
-        //     const tempEntity = validEntity(this.entity); 
-            
-        //     if(tempEntity) {        
-        //         if (Object.keys(expands).map((elem: string) => elem.split('/')[0]).filter((elem: string) => !Object.keys(_DBDATAS[tempEntity].relations).includes(elem)).length > 0)   ctx.throw(400, { detail:"Invalid expand path" });     
-        //     }  else  ctx.throw(400, { detail:`Invalid entity ${this.entity}` }); 
-        // }
         
         if(this.entity === _DBDATAS.Observations.name && this.splitResult !== undefined && Number(this.parentId) == 0) {
             ctx.throw(400, { detail:`Split result not allowed for Observations entity use /Datastreams/Observations or /MultiDatastreams/Observations` }); 
@@ -263,8 +256,6 @@ export class PgVisitor {
                 console.log(`ERROR =================> Visit${node.type}`);            
                 console.log(node); throw new Error(`Unhandled node type: ${node.type}`);
             }
-
-            // else logError(`Unhandled node type: ${node.type}`, node);
         }
 
         if (node == this.ast) {
@@ -422,8 +413,6 @@ export class PgVisitor {
     protected VisitPropertyPathExpression(node: Token, context: any) {
         if (node.value.current && node.value.next) {
             // deterwine if its column AND JSON
-            console.log();
-            
             if (_DBDATAS[this.entity].columns[node.value.current.raw] && _DBDATAS[this.entity].columns[node.value.current.raw].create.startsWith("json") && node.value.next.raw[0]=="/") {
                 this.where += `"${node.value.current.raw}"->>'${node.value.next.raw.slice(1)}'`;
             } else {

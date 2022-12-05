@@ -79,9 +79,7 @@ const multiDatastream = (nb: number) =>
 
 
 const loras = (nb: number) =>
-    `WITH lora as (insert into "lora" ("description", "name", "multidatastream_id", "deveui", "decoder_id") values ('Lora Number ${
-        numberStr[nb]
-    }', 'Lora Number ${nb+1}', ${[3, 1, 4, 5][nb]}, '${lora(
+    `WITH lora as (insert into "lora" ("sensor_id", "deveui", "decoder_id") values ( ${[3, 1, 4, 5][nb]}, '${lora(
         nb 
     )}',1)RETURNING *)SELECT * FROM lora;`;
 

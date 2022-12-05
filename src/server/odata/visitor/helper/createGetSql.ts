@@ -39,8 +39,8 @@ import { PgVisitor } from "../PgVisitor";
     
     const temp = createQuerySelectString(main, main)
     switch (main.resultFormat.name.toUpperCase()) {        
-        case "DATAARRAY" : return queryAsDataArray(main.ArrayNames, temp, false, count, fields);
-        case "CSV" : return queryAsDataArray(main.ArrayNames, temp, false, false, fields);
+        case "DATAARRAY" : return queryAsDataArray(main.ArrayNames, temp, false, fields);
+        case "CSV" : return queryAsDataArray(main.ArrayNames, temp, false, fields);
         case "GRAPHDATAS" : return queryAsGraphData(main, temp);
         default : return queryAsJson(temp, false, count, fields);
     }

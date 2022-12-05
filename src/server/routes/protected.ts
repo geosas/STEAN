@@ -25,22 +25,19 @@ import { createIqueryFromContext } from "../views/helpers/";
 import { queryHtmlPage } from "../views/query";
 import { createDatabase } from "../db/helpers";
 import { createOdata } from "../odata";
-import { makeRootName } from ".";
 
 export const protectedRoutes = new Router<DefaultState, Context>();
 
 protectedRoutes.post("/(.*)", async (ctx: koa.Context, next) => {
-    const token = decodeToken(ctx);
-    // ROOT
-    const root = makeRootName(ctx);    
+    const token = decodeToken(ctx);   
     
     switch (testRoutes(ctx.path).toUpperCase()) {
         case "LOGIN":
-            if (token) ctx.redirect(`${root}/status`);
+            if (token) ctx.redirect(`${ctx._rootName}/status`);
             await loginUser(ctx).then((user: any) => {
                 if (user) {
                     ctx.status = 200;
-                    if (ctx.request.header.accept && ctx.request.header.accept.includes("text/html")) ctx.redirect(`${root}/Status`);
+                    if (ctx.request.header.accept && ctx.request.header.accept.includes("text/html")) ctx.redirect(`${ctx._rootName}/Status`);
                     else
                         ctx.body = {
                             message: "login succeeded",
@@ -91,7 +88,7 @@ protectedRoutes.post("/(.*)", async (ctx: koa.Context, next) => {
                 try {
                     await userAccess.add(ctx.request.body);
                 } catch (error) {
-                    ctx.redirect(`${root}/error`);
+                    ctx.redirect(`${ctx._rootName}/error`);
                 }
             } else {
                 const createHtml = new CreateHtmlView(ctx);
@@ -104,10 +101,10 @@ protectedRoutes.post("/(.*)", async (ctx: koa.Context, next) => {
             const user = await userAccess.update(ctx.request.body);
             if (user) {
                 ctx.login(user);
-                ctx.redirect(`${root}/admin`);
+                ctx.redirect(`${ctx._rootName}/admin`);
             } else {
                 ctx.status = 400;
-                ctx.redirect(`${root}/error`);
+                ctx.redirect(`${ctx._rootName}/error`);
             }
             return;
 
@@ -124,7 +121,7 @@ protectedRoutes.post("/(.*)", async (ctx: koa.Context, next) => {
                 ctx.body = returnValue;
             } else {
                 ctx.status = 400;
-                ctx.redirect(`${root}/error`);
+                ctx.redirect(`${ctx._rootName}/error`);
             }
             return;
     }

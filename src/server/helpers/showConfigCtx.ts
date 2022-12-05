@@ -22,6 +22,7 @@ export const ConfigCtx = (ctx: koa.Context): any => {
     return {
         "_linkBase": `${ctx._linkBase}`,
         "_configName": `${ctx._configName}`,
+        "_rootName": `${ctx._rootName}`,
         "_version": `${ctx._version}`,
         "method": `${ctx.method}`,
         "url": `${ctx.url}`,

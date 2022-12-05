@@ -24,8 +24,6 @@ const reqLines: string[] = [""];
 
 const createJSON = (data: any) => JSON.stringify(data, null, 4).replace(/[\n]+/g, "|\t");
 
-export const identification = { "username": "sensorapi", "password": "mario29" };
-
 export const keyTokenName = "jwt-session";
 export interface IApiInput {
     api: string;

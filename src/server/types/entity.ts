@@ -50,7 +50,6 @@ export interface IEntity {
     readonly table: string;
     readonly order: number;
     readonly columns: IEntityColumn;
-    readonly excludeColumn: string[];
     readonly migrationTest: boolean;
     readonly relations: { [key: string]: IEntityRelation };
     readonly constraints?: IKeyString;

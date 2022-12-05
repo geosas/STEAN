@@ -29,7 +29,6 @@ import { server } from "../../server/index";
 import { dbTest } from "../dbTest";
 import { _DBDATAS } from "../../server/db/constants";
 import { IEntity } from "../../server/types";
-import { logError } from "../../server/logger";
 
 export const testsKeys = [
     "@iot.id",
@@ -719,12 +718,12 @@ describe("endpoint : Thing [8.2.1]", () => {
                                                     done();
                                                 }
                                             })
-                                            .catch((e) => logError(e));
+                                            .catch((e) => console.log(e));
                                     }
                                 })
-                                .catch((e) => logError(e));
+                                .catch((e) => console.log(e));
                         })
-                        .catch((e) => logError(e));
+                        .catch((e) => console.log(e));
                 });
         });
 
@@ -780,10 +779,10 @@ describe("endpoint : Thing [8.2.1]", () => {
                                             done();
                                         }
                                     })
-                                    .catch((e) => logError(e));
+                                    .catch((e) => console.log(e));
                             }
                         })
-                        .catch((e) => logError(e));
+                        .catch((e) => console.log(e));
                 });
         });
 
@@ -896,11 +895,11 @@ describe("endpoint : Thing [8.2.1]", () => {
                                             docs[docs.length - 1].apiErrorExample = myError;
                                             done();
                                         })
-                                        .catch((e) => logError(e));
+                                        .catch((e) => console.log(e));
                                 })
-                                .catch((e) => logError(e));
+                                .catch((e) => console.log(e));
                         })
-                        .catch((e) => logError(e));
+                        .catch((e) => console.log(e));
                 });
         });
     });
@@ -1026,10 +1025,10 @@ describe("endpoint : Thing [8.2.1]", () => {
                                                     done();
                                                 }
                                             })
-                                            .catch((e) => logError(e));
+                                            .catch((e) => console.log(e));
                                     }
                                 })
-                                .catch((e) => logError(e));
+                                .catch((e) => console.log(e));
                         });
                 });
         });
@@ -1083,10 +1082,10 @@ describe("endpoint : Thing [8.2.1]", () => {
                                                     done();
                                                 }
                                             })
-                                            .catch((e) => logError(e));
+                                            .catch((e) => console.log(e));
                                     }
                                 })
-                                .catch((e) => logError(e));
+                                .catch((e) => console.log(e));
                         });
                 });
         });

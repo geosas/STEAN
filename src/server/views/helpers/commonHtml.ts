@@ -15,7 +15,7 @@ import { cleanUrl } from "../../helpers";
 import { cssFile, listCssFiles } from "../css";
 import { jsFile, listJsFiles } from "../js";
 import { IQuery } from "../constant";
-import { getColumnsListType } from "../../db/helpers/getColumnsListType";
+import { getColumnsListType } from "../../db/helpers/";
 import { IEntityColumnForm } from "../../types";
 
 export const commonHtml = (input: string, params: IQuery, ): string => {

@@ -19,7 +19,6 @@ export { encrypt, decrypt } from "./crypto";
 export { getBigIntFromString } from "./getBigIntFromString";
 export { getConfigName } from "./getConfigName";
 export { getEntityName } from "./getEntityName";
-export { getExpandList } from "./getExpandList";
 export { getReturnFormat } from "./getReturnFormat";
 export { getUserId } from "./getUserId";
 export { isModeDebug } from "./isModeDebug";

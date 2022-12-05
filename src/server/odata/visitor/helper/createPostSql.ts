@@ -13,7 +13,7 @@ import { _DBDATAS } from "../../../db/constants";
 import { getBigIntFromString, getEntityName } from "../../../helpers";
 import { logDebug, message } from "../../../logger";
 import { IEntity, IKeyValues } from "../../../types";
-import { OperationType } from "../../../types/cte";
+import { OperationType } from "../../../types/";
 import { PgVisitor } from "../PgVisitor";
 
 

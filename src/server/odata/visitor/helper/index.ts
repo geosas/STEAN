@@ -18,16 +18,16 @@ export const  queryAsGraphData = (input: PgVisitor, query: string): string => {
         case _DBDATAS.MultiDatastreams.name:
             let sql:string[] = [];
             return `with source as (${query}) ,\n results as (select ${sql.join(",\n")} from source),\n key as (${key(<string>input.parentId)})
-            select (select multidatastream."name" from multidatastream where multidatastream."id" = 1) AS title, 'result' as "keys", array_agg(id) as "ids", json_object_agg('result', results.mario) as "values", array_agg(date) as "dates"  from source, results;
+            select (select multidatastream."name" from multidatastream where multidatastream."id" = 1) AS title, 'result' as "keys", array_agg(id) as "ids", json_object_agg('result', results.sourceResult) as "values", array_agg(date) as "dates"  from source, results;
             `;
         case _DBDATAS.Datastreams.name:
-            return `with source as (\n${query}\n),\nresults as (select array_agg(("result" #>> '{result}')::float) as mario from source)\nselect \n\t(select datastream."description" from datastream where datastream."id" = 1) AS title,\n\t'result' as "keys",\n\tarray_agg(id) as "ids",\n\tjson_object_agg('result', results.mario) as "values",\n\tarray_agg(date) as "dates"\n\tfrom source, results;`
+            return `with source as (\n${query}\n),\nresults as (select array_agg("result") as sourceResult from source)\nselect \n\t(select datastream."description" from datastream where datastream."id" = 1) AS title,\n\t'result' as "keys",\n\tarray_agg(id) as "ids",\n\tjson_object_agg('result', results.sourceResult) as "values",\n\tarray_agg(date) as "dates"\n\tfrom source, results;`
         default:
             return "";
     }    
 }
-export const  queryAsDataArray = (zobi: { [key: string]: string } , query: string, singular: boolean, count: boolean, fields?: string[]): string => {  
-    const sqlString = `SELECT (ARRAY['${Object.keys(zobi).map((e:string) => removeQuotes(e)).join("','")}']) as "component", array_agg(pipo) as "dataArray" FROM (SELECT  json_build_array(${Object.values(zobi).join()}) as pipo FROM (${query}) as p) as l`;
+export const  queryAsDataArray = (listOfKeys: { [key: string]: string } , query: string, singular: boolean, fields?: string[]): string => {  
+    const sqlString = `SELECT (ARRAY['${Object.keys(listOfKeys).map((e:string) => removeQuotes(e)).join("','")}']) as "component", array_agg(allkeys) as "dataArray" FROM (SELECT  json_build_array(${Object.values(listOfKeys).join()}) as allkeys FROM (${query}) as p) as l`;
     return queryAsJson(sqlString, singular, false, fields);
 
 }

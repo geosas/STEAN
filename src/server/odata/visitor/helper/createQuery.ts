@@ -21,7 +21,7 @@ export function createQuerySelectString(main: PgVisitor, element: PgVisitor): st
     const sql = createSql(tempPgQuery);
     if (main.timeSeries) {
         const series = new TimeSeries(sql);
-        const tmpSql = series.createSql(main.timeSeries);
+        const tmpSql = series.createSql(main);
         return tmpSql ? tmpSql : "Error timeseries SQL";
     }
     return sql;

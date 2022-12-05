@@ -14,10 +14,6 @@ import { logDebug } from ".";
 import { _CONFIGFILE } from "../configuration";
 import { IKeyValue } from "../types";
 
-export const clearLog = async (ctx: koa.Context): Promise<void> => {
-    await db["admin"].raw(`delete from ${_DBADMIN.Logs_request.table} where ("url" LIKE '%/Logs%') or (code = '200' and method = 'GET') or date < date_trunc('day', NOW() - interval '3 month') and method = 'GET'`);
-}
-
 export const writeToLog = async (ctx: koa.Context, error?: IKeyValue): Promise<void> => {
     if (ctx.method !== "GET" ) {  
         const req = {
