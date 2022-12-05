@@ -2,7 +2,11 @@ import fs from "fs";
 import path from "path";
 import { db } from "../../server/db";
 import { IKeyString } from "../../server/types";
+const conf = require("../../server/configuration/config.json");
 const apidocJson = require("../apidoc.json");
+
+// export const identification = { "username": "sensorapi", "password": "mario29" };
+export const identification = { "username": conf["test"]["test"].pg_user, "password": conf["test"]["test"].pg_password };
 
 // Institut Agro Rennes-Angers 48.1140652783794, -1.7062956999598533 
 export const geoPos: { [key: string]: number[] }  = {
